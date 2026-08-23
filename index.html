@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +9,8 @@
     <link rel="icon" type="image/png" href="https://leqixn.fun/background.png">
     <link rel="shortcut icon" type="image/png" href="https://leqixn.fun/background.png">
 
-    <meta name="description" content="leqixn — Minecraft server developer, founder and management staff building communities, systems and experiences.">
-    <meta name="keywords" content="leqixn, Minecraft developer, Minecraft server developer, Minecraft plugin developer, SMP developer, server management">
+    <meta name="description" content="leqixn — Minecraft server developer, founder and management staff building communities, systems, plugins and software.">
+    <meta name="keywords" content="leqixn, Minecraft developer, Minecraft plugin developer, Java, C#, C++, Python, JavaScript, HTML, Kotlin, SMP developer, server management">
     <meta name="author" content="leqixn_">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://leqixn.fun/">
@@ -36,8 +35,7 @@
     <style>
         @font-face {
             font-family: "Monocraft";
-            src: url("https://cdn.jsdelivr.net/gh/IdreesInc/Monocraft@main/dist/Monocraft-ttf/Monocraft.ttf")
-                format("truetype");
+            src: url("https://cdn.jsdelivr.net/gh/IdreesInc/Monocraft@main/dist/Monocraft-ttf/Monocraft.ttf") format("truetype");
             font-weight: normal;
             font-style: normal;
         }
@@ -51,9 +49,13 @@
             --sky: #90caf9;
             --white: #f4f9ff;
             --gray: #a9bfd8;
-            --card: rgba(9, 31, 58, 0.86);
+            --card: rgba(9, 31, 58, 0.88);
             --border: #1f5f9e;
+            --border-light: #327fbd;
             --shadow: #020812;
+            --green: #35e875;
+            --red: #ff5f56;
+            --yellow: #ffbd2e;
         }
 
         * {
@@ -68,10 +70,31 @@
 
         body {
             min-height: 100vh;
-            background: var(--blue-dark);
+            background:
+                radial-gradient(circle at 15% 10%, rgba(25, 118, 210, 0.12), transparent 30%),
+                radial-gradient(circle at 85% 20%, rgba(66, 165, 245, 0.08), transparent 30%),
+                var(--blue-dark);
             color: var(--white);
             font-family: "Monocraft", monospace;
             line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.025;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px);
+            background-size: 5px 5px;
+        }
+
+        body.intro-active {
+            overflow: hidden;
         }
 
         ::selection {
@@ -101,17 +124,274 @@
             background: var(--blue-light);
         }
 
+        .intro {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(3, 16, 32, 0.68), rgba(3, 16, 32, 0.88)),
+                url("background.png") center / cover no-repeat;
+            transition:
+                opacity 0.8s ease,
+                visibility 0.8s ease,
+                transform 0.8s ease;
+        }
+
+        .intro::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at center, rgba(66, 165, 245, 0.12), transparent 38%),
+                linear-gradient(90deg, transparent 49.5%, rgba(66, 165, 245, 0.05) 50%, transparent 50.5%);
+            background-size: auto, 80px 80px;
+            pointer-events: none;
+        }
+
+        .intro::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(
+                    to bottom,
+                    transparent 0%,
+                    rgba(66, 165, 245, 0.04) 50%,
+                    transparent 100%
+                );
+            animation: scan 5s linear infinite;
+        }
+
+        .intro.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.04);
+            pointer-events: none;
+        }
+
+        .intro-container {
+            width: min(900px, 100%);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .intro-terminal {
+            width: min(720px, 100%);
+            margin: auto;
+            background: rgba(3, 16, 32, 0.92);
+            border: 2px solid var(--border);
+            box-shadow:
+                7px 7px 0 rgba(2, 8, 18, 0.95),
+                0 0 60px rgba(25, 118, 210, 0.12);
+            animation: introAppear 1s ease both;
+        }
+
+        .intro-bar {
+            height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 14px;
+            background: rgba(1, 10, 21, 0.95);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .window-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            box-shadow: 1px 1px 0 #020812;
+        }
+
+        .window-dot.red {
+            background: var(--red);
+        }
+
+        .window-dot.yellow {
+            background: var(--yellow);
+        }
+
+        .window-dot.green {
+            background: #27c93f;
+        }
+
+        .intro-content {
+            padding: 55px 35px 45px;
+        }
+
+        .intro-command {
+            color: var(--green);
+            font-size: 0.7rem;
+            margin-bottom: 22px;
+        }
+
+        .intro-command::before {
+            content: "leqixn@portfolio:~$ ";
+            color: var(--cyan);
+        }
+
+        .intro h1 {
+            color: var(--white);
+            font-size: clamp(3.2rem, 10vw, 6.5rem);
+            line-height: 1;
+            text-shadow:
+                5px 5px 0 #07315d,
+                9px 9px 0 #020812;
+            margin-bottom: 20px;
+        }
+
+        .intro h1 span {
+            color: var(--cyan);
+        }
+
+        .intro-title {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+        }
+
+        .intro-title strong {
+            color: var(--sky);
+        }
+
+        .intro-relevants {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            max-width: 680px;
+            margin: 0 auto 35px;
+        }
+
+        .relevant {
+            padding: 8px 11px;
+            color: var(--sky);
+            background: #071e38;
+            border: 1px solid #164e83;
+            font-size: 0.6rem;
+            box-shadow: 2px 2px 0 #020812;
+            transition: 0.2s ease;
+        }
+
+        .relevant:hover {
+            color: white;
+            border-color: var(--cyan);
+            background: #0b294a;
+            transform: translateY(-2px);
+        }
+
+        .intro-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            color: var(--gray);
+            font-size: 0.6rem;
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            box-shadow: 0 0 10px var(--green);
+            animation: pulse 1.5s infinite;
+        }
+
+        .enter-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 230px;
+            padding: 15px 25px;
+            color: white;
+            background: #145da0;
+            border: 2px solid #58a9e8;
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.25),
+                inset -2px -2px 0 rgba(0,0,0,0.35),
+                5px 5px 0 #020812;
+            font-family: inherit;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.18s ease;
+        }
+
+        .enter-button:hover {
+            transform: translate(2px, 2px);
+            background: #1976d2;
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.25),
+                inset -2px -2px 0 rgba(0,0,0,0.35),
+                3px 3px 0 #020812,
+                0 0 25px rgba(66, 165, 245, 0.2);
+        }
+
+        .enter-button:active {
+            transform: translate(5px, 5px);
+            box-shadow: inset 2px 2px 0 rgba(255,255,255,0.2);
+        }
+
+        .intro-footer {
+            margin-top: 25px;
+            color: #567999;
+            font-size: 0.55rem;
+        }
+
+        @keyframes introAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.7);
+            }
+        }
+
+        @keyframes scan {
+            from {
+                transform: translateY(-100%);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
         header {
             position: sticky;
             top: 0;
             z-index: 100;
             background: rgba(3, 16, 32, 0.94);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border-bottom: 2px solid var(--border);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
         }
 
         nav {
-            width: min(1100px, 92%);
+            width: min(1150px, 92%);
             margin: auto;
             min-height: 70px;
             display: flex;
@@ -124,11 +404,19 @@
             color: var(--cyan);
             font-size: 1.25rem;
             text-shadow: 3px 3px 0 #06244a;
+            transition: 0.2s ease;
         }
 
         .logo::before {
             content: "</> ";
             color: var(--gray);
+        }
+
+        .logo:hover {
+            color: white;
+            text-shadow:
+                0 0 12px rgba(66, 165, 245, 0.6),
+                3px 3px 0 #06244a;
         }
 
         .nav-links {
@@ -139,7 +427,7 @@
 
         .nav-links a {
             color: var(--gray);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             transition: 0.2s ease;
         }
 
@@ -150,11 +438,10 @@
 
         main {
             width: 100%;
-            margin: auto;
         }
 
         section {
-            width: min(1100px, 92%);
+            width: min(1150px, 92%);
             margin: auto;
             padding: 100px 0;
             scroll-margin-top: 70px;
@@ -177,19 +464,17 @@
             position: absolute;
             inset: 0;
             z-index: -2;
-
             background-image:
                 linear-gradient(
                     rgba(3, 16, 32, 0.48),
-                    rgba(3, 16, 32, 0.68)
+                    rgba(3, 16, 32, 0.7)
                 ),
                 url("background.png");
-
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-
             opacity: 0.78;
+            animation: heroZoom 14s ease-in-out infinite alternate;
         }
 
         .hero::after {
@@ -198,17 +483,25 @@
             left: 0;
             right: 0;
             bottom: 0;
-            height: 45%;
+            height: 48%;
             z-index: -1;
-
             background: linear-gradient(
                 to bottom,
                 rgba(6, 20, 38, 0),
                 rgba(6, 20, 38, 0.55) 35%,
                 var(--blue-dark) 100%
             );
-
             pointer-events: none;
+        }
+
+        @keyframes heroZoom {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.05);
+            }
         }
 
         .hero-content {
@@ -226,6 +519,17 @@
             background: rgba(7, 27, 51, 0.86);
             border: 2px solid var(--border);
             box-shadow: 4px 4px 0 #020812;
+            animation: floatLabel 3s ease-in-out infinite;
+        }
+
+        @keyframes floatLabel {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
         }
 
         .hero h1 {
@@ -242,7 +546,7 @@
         }
 
         .hero-subtitle {
-            max-width: 700px;
+            max-width: 760px;
             margin: 30px auto;
             color: var(--gray);
             font-size: 0.9rem;
@@ -341,6 +645,15 @@
             box-shadow:
                 5px 5px 0 #020812,
                 inset 0 0 25px rgba(25, 118, 210, 0.08);
+            transition: 0.25s ease;
+        }
+
+        .about-window:hover {
+            border-color: var(--cyan);
+            box-shadow:
+                5px 5px 0 #020812,
+                0 0 25px rgba(66, 165, 245, 0.08),
+                inset 0 0 25px rgba(25, 118, 210, 0.08);
         }
 
         .window-bar {
@@ -352,26 +665,6 @@
             padding: 0 13px;
             background: rgba(3, 16, 32, 0.95);
             border-bottom: 2px solid var(--border);
-        }
-
-        .window-dot {
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            display: block;
-            box-shadow: 1px 1px 0 #020812;
-        }
-
-        .window-dot.red {
-            background: #ff5f56;
-        }
-
-        .window-dot.yellow {
-            background: #ffbd2e;
-        }
-
-        .window-dot.green {
-            background: #27c93f;
         }
 
         .about-window p {
@@ -398,6 +691,9 @@
         .skill:hover {
             color: white;
             border-color: var(--cyan);
+            background: #0a294a;
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 0 #020812;
         }
 
         .stats {
@@ -413,6 +709,12 @@
             background: #071b33;
             border: 2px solid var(--border);
             box-shadow: 4px 4px 0 #020812;
+            transition: 0.2s ease;
+        }
+
+        .stat:hover {
+            border-color: var(--cyan);
+            transform: translateY(-3px);
         }
 
         .stat-number {
@@ -425,6 +727,136 @@
         .stat-label {
             color: var(--gray);
             font-size: 0.65rem;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .language-card {
+            position: relative;
+            padding: 22px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            box-shadow: 4px 4px 0 #020812;
+            overflow: hidden;
+            transition: 0.2s ease;
+        }
+
+        .language-card::before {
+            content: "</>";
+            position: absolute;
+            right: 12px;
+            top: 8px;
+            color: rgba(66, 165, 245, 0.08);
+            font-size: 2rem;
+        }
+
+        .language-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+            background: #0b294a;
+        }
+
+        .language-icon {
+            color: var(--cyan);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .language-card h3 {
+            color: white;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .language-card p {
+            color: var(--gray);
+            font-size: 0.65rem;
+        }
+
+        .plugin-intro {
+            margin-bottom: 30px;
+            padding: 22px;
+            color: var(--gray);
+            background: rgba(7, 27, 51, 0.7);
+            border: 2px solid var(--border);
+            border-left: 5px solid var(--cyan);
+            font-size: 0.75rem;
+        }
+
+        .plugin-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .plugin-card {
+            position: relative;
+            min-height: 190px;
+            padding: 24px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(13, 71, 161, 0.16),
+                    rgba(3, 16, 32, 0.92)
+                );
+            border: 2px solid var(--border);
+            box-shadow: 5px 5px 0 #020812;
+            overflow: hidden;
+            transition: 0.25s ease;
+        }
+
+        .plugin-card::after {
+            content: "PLUGIN";
+            position: absolute;
+            top: 14px;
+            right: -32px;
+            padding: 4px 38px;
+            color: rgba(144, 202, 249, 0.28);
+            border-top: 1px solid rgba(66, 165, 245, 0.2);
+            border-bottom: 1px solid rgba(66, 165, 245, 0.2);
+            transform: rotate(45deg);
+            font-size: 0.5rem;
+        }
+
+        .plugin-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+            box-shadow:
+                5px 5px 0 #020812,
+                0 0 20px rgba(66, 165, 245, 0.1);
+        }
+
+        .plugin-card h3 {
+            color: var(--cyan);
+            font-size: 0.9rem;
+            margin-bottom: 13px;
+            padding-right: 40px;
+        }
+
+        .plugin-card h3::before {
+            content: ">";
+            color: var(--sky);
+            margin-right: 7px;
+        }
+
+        .plugin-card p {
+            color: var(--gray);
+            font-size: 0.68rem;
+            line-height: 1.8;
+        }
+
+        .plugin-tag {
+            display: inline-block;
+            margin-top: 17px;
+            padding: 4px 7px;
+            color: #bfe5ff;
+            background: #071e38;
+            border: 1px solid #164e83;
+            font-size: 0.5rem;
         }
 
         .timeline {
@@ -571,6 +1003,19 @@
             color: var(--cyan);
         }
 
+        .terminal-footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #030f1e;
+            border: 2px solid #164e83;
+            color: var(--gray);
+            font-size: 0.65rem;
+        }
+
+        .terminal-footer .green {
+            color: var(--green);
+        }
+
         footer {
             margin-top: 50px;
             padding: 30px 20px;
@@ -585,7 +1030,56 @@
             color: var(--cyan);
         }
 
+        .back-top {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            background: #071e38;
+            border: 2px solid var(--border);
+            box-shadow: 3px 3px 0 #020812;
+            z-index: 50;
+            transition: 0.2s ease;
+        }
+
+        .back-top:hover {
+            background: var(--blue);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 950px) {
+            .plugin-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .language-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 750px) {
+            .intro {
+                padding: 18px;
+            }
+
+            .intro-content {
+                padding: 40px 20px 30px;
+            }
+
+            .intro h1 {
+                font-size: 3.4rem;
+            }
+
+            .intro-title {
+                font-size: 0.7rem;
+            }
+
             nav {
                 flex-direction: column;
                 justify-content: center;
@@ -603,6 +1097,11 @@
             }
 
             .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .language-grid,
+            .plugin-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -649,18 +1148,78 @@
     </style>
 </head>
 
-<body>
+<body class="intro-active">
+
+    <div class="intro" id="intro">
+        <div class="intro-container">
+            <div class="intro-terminal">
+
+                <div class="intro-bar">
+                    <span class="window-dot red"></span>
+                    <span class="window-dot yellow"></span>
+                    <span class="window-dot green"></span>
+                </div>
+
+                <div class="intro-content">
+
+                    <div class="intro-command">
+                        initialize_portfolio
+                    </div>
+
+                    <h1>
+                        <span>leqixn</span><span class="cursor">_</span>
+                    </h1>
+
+                    <p class="intro-title">
+                        <strong>Developer</strong> ·
+                        <strong>Founder</strong> ·
+                        <strong>Server Management</strong> ·
+                        <strong>Plugin Developer</strong>
+                    </p>
+
+                    <div class="intro-relevants">
+                        <span class="relevant">Minecraft Development</span>
+                        <span class="relevant">Java</span>
+                        <span class="relevant">C#</span>
+                        <span class="relevant">C++</span>
+                        <span class="relevant">Python</span>
+                        <span class="relevant">JavaScript</span>
+                        <span class="relevant">HTML</span>
+                        <span class="relevant">Kotlin</span>
+                        <span class="relevant">Server Administration</span>
+                        <span class="relevant">Community Management</span>
+                        <span class="relevant">SMP Development</span>
+                        <span class="relevant">Software Development</span>
+                    </div>
+
+                    <div class="intro-status">
+                        <span class="status-light"></span>
+                        PORTFOLIO SYSTEM READY
+                    </div>
+
+                    <button class="enter-button" id="enterButton">
+                        ENTER PORTFOLIO
+                    </button>
+
+                    <div class="intro-footer">
+                        leqixn.fun · developer portfolio · 2026
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <header>
         <nav>
-            <a href="home" class="logo">
-                leqixn
-            </a>
+            <a href="#home" class="logo">leqixn</a>
 
             <ul class="nav-links">
-                <li><a href="about">ABOUT</a></li>
-                <li><a href="work">WORK</a></li>
-                <li><a href="journey">JOURNEY</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#languages">LANGUAGES</a></li>
+                <li><a href="#plugins">PLUGINS</a></li>
+                <li><a href="#work">WORK</a></li>
+                <li><a href="#journey">JOURNEY</a></li>
             </ul>
         </nav>
     </header>
@@ -680,16 +1239,17 @@
 
                 <p class="hero-subtitle">
                     Minecraft server developer, founder and management staff
-                    building communities, systems and experiences.
+                    building communities, systems, plugins, software and
+                    experiences.
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="work" class="minecraft-button">
-                        VIEW MY WORK
+                    <a href="#plugins" class="minecraft-button">
+                        VIEW MY PLUGINS
                     </a>
 
-                    <a href="journey" class="minecraft-button secondary">
-                        MY JOURNEY
+                    <a href="#languages" class="minecraft-button secondary">
+                        MY TECHNOLOGIES
                     </a>
                 </div>
 
@@ -729,16 +1289,19 @@
 
                     <p>
                         Throughout my journey, I've worked with multiple
-                        Minecraft SMP projects, Plugin Development, taking on responsibilities
-                        ranging from development and server management to
-                        founding and helping shape entire communities.
+                        Minecraft SMP projects, plugin development,
+                        server management and community projects, taking on
+                        responsibilities ranging from development and
+                        administration to founding and helping shape entire
+                        communities.
                     </p>
 
                     <br>
 
                     <p>
-                        I am also a Software Developer that creates an functional and helpful software
-                        That can be used by Blind People to Rephrase an Visual Text into Sounds.
+                        I am also a Software Developer that creates functional
+                        and helpful software that can be used by blind people
+                        to rephrase visual text into sounds.
                     </p>
 
                 </div>
@@ -762,6 +1325,9 @@
                         <span class="skill">Plugin Development</span>
                         <span class="skill">Community Management</span>
                         <span class="skill">Server Administration</span>
+                        <span class="skill">Software Development</span>
+                        <span class="skill">Automation</span>
+                        <span class="skill">Backend Development</span>
                         <span class="skill">Leadership</span>
                         <span class="skill">Founder</span>
                     </div>
@@ -791,6 +1357,305 @@
 
         </section>
 
+        <section id="languages">
+
+            <h2 class="section-title">
+                LANGUAGES AND TECHNOLOGIES
+            </h2>
+
+            <div class="language-grid">
+
+                <article class="language-card">
+                    <div class="language-icon">☕</div>
+                    <h3>Java</h3>
+                    <p>
+                        My primary language for Minecraft plugin development,
+                        server systems, gameplay mechanics, APIs and backend
+                        infrastructure.
+                    </p>
+                </article>
+
+                <article class="language-card">
+                    <div class="language-icon">#</div>
+                    <h3>C#</h3>
+                    <p>
+                        Used for software, utilities, tools and structured
+                        applications that benefit from a powerful
+                        object-oriented ecosystem.
+                    </p>
+                </article>
+
+                <article class="language-card">
+                    <div class="language-icon">C++</div>
+                    <h3>C++</h3>
+                    <p>
+                        Used for performance-focused programming, lower-level
+                        systems and applications where speed and efficiency
+                        are important.
+                    </p>
+                </article>
+
+                <article class="language-card">
+                    <div class="language-icon">PY</div>
+                    <h3>Python</h3>
+                    <p>
+                        Used for automation, scripting, utilities,
+                        experimentation, backend logic and developer tools.
+                    </p>
+                </article>
+
+                <article class="language-card">
+                    <div class="language-icon">JS</div>
+                    <h3>JavaScript</h3>
+                    <p>
+                        Used to build interactive websites, web applications,
+                        browser functionality, automation and integrations.
+                    </p>
+                </article>
+
+                <article class="language-card">
+                    <div class="language-icon">&lt;/&gt;</div>
+                    <h3>HTML</h3>
+                    <p>
+                        Used to structure websites, portfolio interfaces,
+                        dashboards and web-based projects.
+                    </p>
+                </article>
+
+                <article class="language-card">
+                    <div class="language-icon">K</div>
+                    <h3>Kotlin</h3>
+                    <p>
+                        Used for modern JVM development and applications where
+                        concise, expressive and maintainable code is useful.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+        <section id="plugins">
+
+            <h2 class="section-title">
+                PLUGIN PROJECTS
+            </h2>
+
+            <div class="plugin-intro">
+                A collection of Minecraft systems and plugins focused on
+                security, moderation, gameplay, economy, infrastructure,
+                optimization, authentication, competitive systems and
+                community management.
+            </div>
+
+            <div class="plugin-grid">
+
+                <article class="plugin-card">
+                    <h3>VeryliumAntiVPN</h3>
+                    <p>
+                        A server security system designed to detect suspicious
+                        VPN, proxy and potentially anonymized connections,
+                        helping protect the server from unwanted access.
+                    </p>
+                    <span class="plugin-tag">SECURITY</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumCombat</h3>
+                    <p>
+                        A combat management system for handling combat states,
+                        combat tagging and rules surrounding player-versus-player
+                        gameplay.
+                    </p>
+                    <span class="plugin-tag">GAMEPLAY</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumAntiSpam</h3>
+                    <p>
+                        A chat protection system designed to detect repetitive
+                        messages, excessive communication and disruptive
+                        player spam.
+                    </p>
+                    <span class="plugin-tag">PROTECTION</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumModeration</h3>
+                    <p>
+                        A staff moderation toolkit for managing players,
+                        enforcing rules, handling punishments and providing
+                        administrative controls.
+                    </p>
+                    <span class="plugin-tag">MODERATION</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumCore</h3>
+                    <p>
+                        A foundational core providing shared utilities,
+                        reusable systems and common infrastructure for other
+                        Verylium plugins.
+                    </p>
+                    <span class="plugin-tag">CORE</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumCorePlus</h3>
+                    <p>
+                        An expanded core framework providing additional
+                        utilities and functionality for more advanced server
+                        systems.
+                    </p>
+                    <span class="plugin-tag">CORE</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumCoreV2</h3>
+                    <p>
+                        A newer generation of the Verylium core architecture
+                        focused on reusable infrastructure, shared utilities
+                        and improved plugin foundations.
+                    </p>
+                    <span class="plugin-tag">CORE V2</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>SailsCoreV2</h3>
+                    <p>
+                        A second-generation core framework providing reusable
+                        foundations and common functionality for Sailyx related
+                        server infrastructure.
+                    </p>
+                    <span class="plugin-tag">CORE V2</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumRewards</h3>
+                    <p>
+                        A reward management system for distributing player
+                        rewards, incentives and progression-based benefits.
+                    </p>
+                    <span class="plugin-tag">REWARDS</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumAuction</h3>
+                    <p>
+                        An auction-house system for listing, browsing and
+                        trading player items through a server economy.
+                    </p>
+                    <span class="plugin-tag">ECONOMY</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumShop</h3>
+                    <p>
+                        A server shop system providing structured item
+                        purchasing and selling functionality for players.
+                    </p>
+                    <span class="plugin-tag">ECONOMY</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumOrders</h3>
+                    <p>
+                        An order and transaction management system designed
+                        to organize player purchases, requests and server-side
+                        transactions.
+                    </p>
+                    <span class="plugin-tag">TRANSACTIONS</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumWebhooksCore</h3>
+                    <p>
+                        A shared webhook infrastructure connecting Minecraft
+                        server events and systems with external services such
+                        as Discord and other web-based platforms.
+                    </p>
+                    <span class="plugin-tag">INTEGRATION</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumAuth</h3>
+                    <p>
+                        An authentication-focused system designed around
+                        player identity, verification and access-related
+                        server functionality.
+                    </p>
+                    <span class="plugin-tag">AUTHENTICATION</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumOptimizer</h3>
+                    <p>
+                        A performance-oriented system intended to improve
+                        server efficiency, reduce unnecessary workload and
+                        help maintain smoother gameplay.
+                    </p>
+                    <span class="plugin-tag">PERFORMANCE</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumElos</h3>
+                    <p>
+                        An ELO rating system designed to calculate, update and
+                        track player skill ratings for competitive gameplay.
+                    </p>
+                    <span class="plugin-tag">COMPETITIVE</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>SimpleElos</h3>
+                    <p>
+                        A lightweight ELO system focused on simple player
+                        ratings, competitive rankings and skill progression.
+                    </p>
+                    <span class="plugin-tag">RANKING</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>VeryliumTeams</h3>
+                    <p>
+                        A team management system for creating teams,
+                        organizing members and supporting team-based gameplay.
+                    </p>
+                    <span class="plugin-tag">TEAMS</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>SevnCommands</h3>
+                    <p>
+                        A command toolkit providing additional commands and
+                        utilities for server administration and gameplay.
+                    </p>
+                    <span class="plugin-tag">COMMANDS</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>SevnOrders</h3>
+                    <p>
+                        An order management system designed to organize player
+                        requests, purchases, transactions and server orders.
+                    </p>
+                    <span class="plugin-tag">ORDERS</span>
+                </article>
+
+                <article class="plugin-card">
+                    <h3>SevnTools</h3>
+                    <p>
+                        A collection of general-purpose server tools and
+                        utilities intended to simplify administration and
+                        everyday server management.
+                    </p>
+                    <span class="plugin-tag">UTILITIES</span>
+                </article>
+
+            </div>
+
+        </section>
+
         <section id="work">
 
             <h2 class="section-title">
@@ -802,19 +1667,14 @@
                 <article class="job">
 
                     <div class="job-top">
-
                         <div>
                             <h3>SailyxSMP</h3>
-
-                            <span class="role">
-                                FOUNDER
-                            </span>
+                            <span class="role">FOUNDER</span>
                         </div>
 
                         <span class="duration">
                             1 YEAR AND 1 MONTH
                         </span>
-
                     </div>
 
                     <p>
@@ -834,19 +1694,14 @@
                 <article class="job">
 
                     <div class="job-top">
-
                         <div>
                             <h3>AcerSMP</h3>
-
-                            <span class="role">
-                                MANAGEMENT STAFF & DEVELOPER
-                            </span>
+                            <span class="role">MANAGEMENT STAFF & DEVELOPER</span>
                         </div>
 
                         <span class="duration">
                             9 MONTHS
                         </span>
-
                     </div>
 
                     <p>
@@ -866,19 +1721,14 @@
                 <article class="job">
 
                     <div class="job-top">
-
                         <div>
                             <h3>VeryliumSMP</h3>
-
-                            <span class="role">
-                                FOUNDER
-                            </span>
+                            <span class="role">FOUNDER</span>
                         </div>
 
                         <span class="duration">
                             11 MONTHS
                         </span>
-
                     </div>
 
                     <p>
@@ -907,13 +1757,13 @@
             <div class="journey-summary">
 
                 <h3>
-                    // 37 MONTHS OF EXPERIENCE
+                    37 MONTHS OF EXPERIENCE
                 </h3>
 
                 <p>
-                    My Minecraft server journey has taken me through 13
-                    major projects, giving me experience in development,
-                    management, leadership and founding communities.
+                    My Minecraft server journey has taken me through 13 major
+                    projects, giving me experience in development, management,
+                    leadership and founding communities.
                 </p>
 
                 <p class="journey-total">
@@ -938,9 +1788,22 @@
 
             </div>
 
+            <div class="terminal-footer">
+                <span class="green">leqixn@portfolio:~$</span>
+                system.status
+                <br>
+                <span style="color:#42a5f5;">[ONLINE]</span>
+                Developer systems operational.
+                <br>
+                <span style="color:#42a5f5;">[ACTIVE]</span>
+                Minecraft development, software development and server infrastructure.
+            </div>
+
         </section>
 
     </main>
+
+    <a href="#home" class="back-top">↑</a>
 
     <footer>
         <p>
@@ -949,8 +1812,22 @@
     </footer>
 
     <script>
+        const intro = document.getElementById("intro");
+        const enterButton = document.getElementById("enterButton");
+
+        enterButton.addEventListener("click", () => {
+            intro.classList.add("hide");
+            document.body.classList.remove("intro-active");
+
+            setTimeout(() => {
+                document.getElementById("home").scrollIntoView({
+                    behavior: "smooth"
+                });
+            }, 250);
+        });
+
         const titles = [
-            "leqixn's Portfolio pakyu"
+            "leqixn — Developer Portfolio",
         ];
 
         let titleIndex = 0;
@@ -958,7 +1835,7 @@
         setInterval(() => {
             titleIndex = (titleIndex + 1) % titles.length;
             document.title = titles[titleIndex];
-        }, 4000);
+        }, 3000);
     </script>
 
 </body>
