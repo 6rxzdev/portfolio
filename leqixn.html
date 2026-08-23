@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>leqixn_ — Developer Portfolio</title>
+
+    <link rel="icon" type="image/png" href="background.png">
+    <link rel="shortcut icon" type="image/png" href="background.png">
+
+    <style>
+        @font-face {
+            font-family: "Monocraft";
+            src: url("https://cdn.jsdelivr.net/gh/IdreesInc/Monocraft@main/dist/Monocraft-ttf/Monocraft.ttf")
+                format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --blue-dark: #061426;
+            --blue-deep: #0a1f3d;
+            --blue: #0d47a1;
+            --blue-light: #1976d2;
+            --cyan: #42a5f5;
+            --sky: #90caf9;
+            --white: #f4f9ff;
+            --gray: #a9bfd8;
+            --card: rgba(9, 31, 58, 0.86);
+            --border: #1f5f9e;
+            --shadow: #020812;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--blue-dark);
+            color: var(--white);
+            font-family: "Monocraft", monospace;
+            line-height: 1.7;
+        }
+
+        ::selection {
+            background: var(--cyan);
+            color: #00101f;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020b17;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--blue);
+            border: 2px solid #020b17;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--blue-light);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(3, 16, 32, 0.94);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border);
+        }
+
+        nav {
+            width: min(1100px, 92%);
+            margin: auto;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .logo {
+            color: var(--cyan);
+            font-size: 1.25rem;
+            text-shadow: 3px 3px 0 #06244a;
+        }
+
+        .logo::before {
+            content: "> ";
+            color: var(--gray);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            font-size: 0.75rem;
+            transition: 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+            text-shadow: 2px 2px 0 #06366d;
+        }
+
+        main {
+            width: 100%;
+            margin: auto;
+        }
+
+        section {
+            width: min(1100px, 92%);
+            margin: auto;
+            padding: 100px 0;
+            scroll-margin-top: 70px;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 4%;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+
+            background-image:
+                linear-gradient(
+                    rgba(3, 16, 32, 0.48),
+                    rgba(3, 16, 32, 0.68)
+                ),
+                url("background.png");
+
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+
+            opacity: 0.78;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 45%;
+            z-index: -1;
+
+            background: linear-gradient(
+                to bottom,
+                rgba(6, 20, 38, 0),
+                rgba(6, 20, 38, 0.55) 35%,
+                var(--blue-dark) 100%
+            );
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+            width: min(1000px, 100%);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .terminal-label {
+            display: inline-block;
+            padding: 7px 14px;
+            margin-bottom: 25px;
+            color: var(--gray);
+            background: rgba(7, 27, 51, 0.86);
+            border: 2px solid var(--border);
+            box-shadow: 4px 4px 0 #020812;
+        }
+
+        .hero h1 {
+            color: var(--white);
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            line-height: 1.1;
+            text-shadow:
+                4px 4px 0 #07315d,
+                7px 7px 0 #020812;
+        }
+
+        .hero h1 span {
+            color: var(--cyan);
+        }
+
+        .hero-subtitle {
+            max-width: 700px;
+            margin: 30px auto;
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-shadow: 2px 2px 5px #020812;
+        }
+
+        .cursor {
+            color: var(--cyan);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% {
+                opacity: 1;
+            }
+
+            50%, 100% {
+                opacity: 0;
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .minecraft-button {
+            display: inline-block;
+            padding: 13px 20px;
+            background: #145da0;
+            color: white;
+            border: 2px solid #58a9e8;
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.25),
+                inset -2px -2px 0 rgba(0,0,0,0.35),
+                4px 4px 0 #020812;
+            transition: 0.15s ease;
+        }
+
+        .minecraft-button:hover {
+            transform: translate(2px, 2px);
+            background: #1976d2;
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.25),
+                inset -2px -2px 0 rgba(0,0,0,0.35),
+                2px 2px 0 #020812;
+        }
+
+        .minecraft-button.secondary {
+            background: #092744;
+            border-color: var(--border);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 35px;
+            color: var(--cyan);
+            font-size: 1.25rem;
+        }
+
+        .section-title::before {
+            content: ">";
+            color: var(--sky);
+        }
+
+        .section-title::after {
+            content: "";
+            height: 2px;
+            flex: 1;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    var(--border) 0,
+                    var(--border) 8px,
+                    transparent 8px,
+                    transparent 14px
+                );
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            padding: 28px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            box-shadow:
+                5px 5px 0 #020812,
+                inset 0 0 25px rgba(25, 118, 210, 0.08);
+        }
+
+        .panel p {
+            color: var(--gray);
+            font-size: 0.82rem;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            padding: 8px 11px;
+            color: var(--sky);
+            background: #071e38;
+            border: 1px solid #164e83;
+            font-size: 0.7rem;
+            transition: 0.2s ease;
+        }
+
+        .skill:hover {
+            color: white;
+            border-color: var(--cyan);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            padding: 25px;
+            text-align: center;
+            background: #071b33;
+            border: 2px solid var(--border);
+            box-shadow: 4px 4px 0 #020812;
+        }
+
+        .stat-number {
+            display: block;
+            color: var(--cyan);
+            font-size: 2rem;
+            text-shadow: 3px 3px 0 #06264b;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.65rem;
+        }
+
+        .timeline {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 17px;
+            top: 20px;
+            bottom: 20px;
+            width: 3px;
+            background: #145da0;
+        }
+
+        .job {
+            position: relative;
+            margin-left: 50px;
+            padding: 28px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            box-shadow: 5px 5px 0 #020812;
+            transition: 0.2s ease;
+        }
+
+        .job:hover {
+            border-color: var(--cyan);
+            transform: translateX(5px);
+        }
+
+        .job::before {
+            content: "";
+            position: absolute;
+            left: -43px;
+            top: 27px;
+            width: 18px;
+            height: 18px;
+            background: var(--cyan);
+            border: 3px solid #06284f;
+            box-shadow:
+                0 0 0 2px var(--border),
+                3px 3px 0 #020812;
+        }
+
+        .job-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .job h3 {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .role {
+            display: inline-block;
+            margin-top: 7px;
+            color: var(--cyan);
+            font-size: 0.7rem;
+        }
+
+        .duration {
+            flex-shrink: 0;
+            padding: 7px 10px;
+            color: #cce9ff;
+            background: #09294a;
+            border: 1px solid #1c609d;
+            font-size: 0.65rem;
+        }
+
+        .job p {
+            margin-top: 18px;
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        .journey-bar {
+            height: 9px;
+            margin-top: 20px;
+            background: #041426;
+            border: 1px solid #164e83;
+        }
+
+        .journey-fill {
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #1976d2 0,
+                    #1976d2 12px,
+                    #42a5f5 12px,
+                    #42a5f5 18px
+                );
+        }
+
+        .sailyx {
+            width: 42%;
+        }
+
+        .acer {
+            width: 75%;
+        }
+
+        .verylium {
+            width: 100%;
+        }
+
+        .journey-summary {
+            margin-top: 40px;
+            padding: 30px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(13, 71, 161, 0.35),
+                    rgba(3, 16, 32, 0.8)
+                );
+            border: 2px solid var(--blue-light);
+            box-shadow: 6px 6px 0 #020812;
+        }
+
+        .journey-summary h3 {
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .journey-summary p {
+            color: var(--gray);
+            font-size: 0.78rem;
+        }
+
+        .journey-total {
+            margin-top: 20px;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .journey-total strong {
+            color: var(--cyan);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 30px 20px;
+            text-align: center;
+            background: #020b17;
+            border-top: 2px solid #123b64;
+            color: #6786a4;
+            font-size: 0.65rem;
+        }
+
+        footer span {
+            color: var(--cyan);
+        }
+
+        @media (max-width: 750px) {
+            nav {
+                flex-direction: column;
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .nav-links {
+                gap: 13px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .job {
+                margin-left: 35px;
+            }
+
+            .timeline::before {
+                left: 8px;
+            }
+
+            .job::before {
+                left: -34px;
+            }
+
+            .job-top {
+                flex-direction: column;
+            }
+
+            .duration {
+                align-self: flex-start;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero::after {
+                height: 55%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="#home" class="logo">
+                leqixn_
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#work">WORK</a></li>
+                <li><a href="#journey">JOURNEY</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="home" class="hero">
+            <div class="hero-content">
+
+                <div class="terminal-label">
+                    [ DEVELOPER // FOUNDER // MANAGEMENT ]
+                </div>
+
+                <h1>
+                    Hi, I'm <span>leqixn</span><span class="cursor">_</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Minecraft server developer, founder and management staff
+                    building communities, systems and experiences.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#work" class="minecraft-button">
+                        VIEW MY WORK
+                    </a>
+
+                    <a href="#journey" class="minecraft-button secondary">
+                        MY JOURNEY
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="about">
+
+            <h2 class="section-title">
+                ABOUT ME AND SKILLS
+            </h2>
+
+            <div class="about-grid">
+
+                <div class="panel">
+
+                    <p>
+                        Hello! I'm
+                        <strong style="color:#42a5f5;">leqixn, 15</strong>,
+                        I'm a Filipino (<strong style="color:#3b3939;">legends lang nakaka alam HAHAHAHA</strong>), My religion is <strong style="color:#00ff00;">Iglesia</strong> <strong style="color:#ffffff;">Ni</strong> <strong style="color:#ff0000;">Cristo</strong>, a developer and founder focused on Minecraft server
+                        development, management and community building.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Throughout my journey, I've worked with multiple
+                        Minecraft SMP projects, Plugin Development, taking on responsibilities
+                        ranging from development and server management to
+                        founding and helping shape entire communities.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        I am also a Software Developer that creates an functional and helpful software
+                        That can be used by Blind People to Rephrase an Visual Text into Sounds.
+                    </p>
+
+                </div>
+
+                <div class="panel">
+
+                    <p style="color:#42a5f5;">
+                        CORE EXPERTISE
+                    </p>
+
+                    <div class="skills">
+
+                        <span class="skill">Minecraft Development</span>
+                        <span class="skill">Server Management</span>
+                        <span class="skill">SMP Development</span>
+                        <span class="skill">Plugin Development</span>
+                        <span class="skill">Community Management</span>
+                        <span class="skill">Server Administration</span>
+                        <span class="skill">Leadership</span>
+                        <span class="skill">Founder</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <span class="stat-number">24</span>
+                    <span class="stat-label">SMP PROJECTS</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-number">37</span>
+                    <span class="stat-label">MONTHS JOURNEY</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">LEADERSHIP ROLES</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="work">
+
+            <h2 class="section-title">
+                WORK HISTORY
+            </h2>
+
+            <div class="timeline">
+
+                <article class="job">
+
+                    <div class="job-top">
+
+                        <div>
+                            <h3>SailyxSMP</h3>
+
+                            <span class="role">
+                                FOUNDER
+                            </span>
+                        </div>
+
+                        <span class="duration">
+                            1 YEAR AND 1 MONTH
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Founded and helped shape the direction of SailyxSMP,
+                        working on the server's development, organization and
+                        overall community experience.
+                    </p>
+
+                    <div class="journey-bar">
+                        <div class="journey-fill sailyx"></div>
+                    </div>
+
+                </article>
+
+                <article class="job">
+
+                    <div class="job-top">
+
+                        <div>
+                            <h3>AcerSMP</h3>
+
+                            <span class="role">
+                                MANAGEMENT STAFF & DEVELOPER
+                            </span>
+                        </div>
+
+                        <span class="duration">
+                            9 MONTHS
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Worked as management staff and a developer,
+                        contributing to both the technical side of the server
+                        and its day-to-day management.
+                    </p>
+
+                    <div class="journey-bar">
+                        <div class="journey-fill acer"></div>
+                    </div>
+
+                </article>
+
+                <article class="job">
+
+                    <div class="job-top">
+
+                        <div>
+                            <h3>VeryliumSMP</h3>
+
+                            <span class="role">
+                                FOUNDER
+                            </span>
+                        </div>
+
+                        <span class="duration">
+                            11 MONTHS
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Founded VeryliumSMP and worked on its direction,
+                        development and community. This became the longest
+                        chapter of my Minecraft server journey.
+                    </p>
+
+                    <div class="journey-bar">
+                        <div class="journey-fill verylium"></div>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <section id="journey">
+
+            <h2 class="section-title">
+                MY JOURNEY
+            </h2>
+
+            <div class="journey-summary">
+
+                <h3>
+                    // 37 MONTHS OF EXPERIENCE
+                </h3>
+
+                <p>
+                    My Minecraft server journey has taken me through 13
+                    major projects, giving me experience in development,
+                    management, leadership and founding communities.
+                </p>
+
+                <p class="journey-total">
+                    SailyxSMP:
+                    <strong>1 year and 1 month</strong>
+                    &nbsp;|&nbsp;
+
+                    AcerSMP:
+                    <strong>9 months</strong>
+                    &nbsp;|&nbsp;
+
+                    VeryliumSMP:
+                    <strong>11 months</strong> and many more...
+                </p>
+
+                <p style="margin-top:20px; color:#90caf9;">
+                    TOTAL JOURNEY:
+                    <strong style="color:#42a5f5;">
+                        37 MONTHS
+                    </strong>
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            © 2026 <span>leqixn</span> — All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        const titles = [
+            "leqixn's Portfolio pakyu"
+        ];
+
+        let titleIndex = 0;
+
+        setInterval(() => {
+            titleIndex = (titleIndex + 1) % titles.length;
+            document.title = titles[titleIndex];
+        }, 4000);
+    </script>
+
+</body>
+</html>
