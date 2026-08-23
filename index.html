@@ -100,6 +100,10 @@
             background: var(--blue-light);
         }
 
+        /* =========================
+           HEADER
+        ========================= */
+
         header {
             position: sticky;
             top: 0;
@@ -147,6 +151,10 @@
             text-shadow: 2px 2px 0 #06366d;
         }
 
+        /* =========================
+           MAIN
+        ========================= */
+
         main {
             width: 100%;
             margin: auto;
@@ -158,6 +166,10 @@
             padding: 100px 0;
             scroll-margin-top: 70px;
         }
+
+        /* =========================
+           HERO
+        ========================= */
 
         .hero {
             position: relative;
@@ -298,6 +310,10 @@
             border-color: var(--border);
         }
 
+        /* =========================
+           SECTION TITLES
+        ========================= */
+
         .section-title {
             display: flex;
             align-items: center;
@@ -326,6 +342,10 @@
                 );
         }
 
+        /* =========================
+           ABOUT GRID
+        ========================= */
+
         .about-grid {
             display: grid;
             grid-template-columns: 1.4fr 1fr;
@@ -345,6 +365,69 @@
             color: var(--gray);
             font-size: 0.82rem;
         }
+
+        /* =========================
+           ABOUT / EXPERTISE WINDOW BAR
+        ========================= */
+
+        .about-window {
+            overflow: hidden;
+            padding: 28px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            box-shadow:
+                5px 5px 0 #020812,
+                inset 0 0 25px rgba(25, 118, 210, 0.08);
+        }
+
+        .about-window .window-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            height: 38px;
+
+            margin: -28px -28px 25px;
+            padding: 0 13px;
+
+            background: rgba(3, 16, 32, 0.95);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .window-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            display: block;
+            box-shadow: 1px 1px 0 #020812;
+        }
+
+        .window-dot.red {
+            background: #ff5f56;
+        }
+
+        .window-dot.yellow {
+            background: #ffbd2e;
+        }
+
+        .window-dot.green {
+            background: #27c93f;
+        }
+
+        .chat-label {
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 0.75rem;
+            text-align: left;
+        }
+
+        .chat-label span {
+            color: var(--cyan);
+        }
+
+        /* =========================
+           SKILLS
+        ========================= */
 
         .skills {
             display: flex;
@@ -366,6 +449,10 @@
             color: white;
             border-color: var(--cyan);
         }
+
+        /* =========================
+           STATS
+        ========================= */
 
         .stats {
             display: grid;
@@ -393,6 +480,10 @@
             color: var(--gray);
             font-size: 0.65rem;
         }
+
+        /* =========================
+           TIMELINE
+        ========================= */
 
         .timeline {
             position: relative;
@@ -505,6 +596,10 @@
             width: 100%;
         }
 
+        /* =========================
+           JOURNEY
+        ========================= */
+
         .journey-summary {
             margin-top: 40px;
             padding: 30px;
@@ -538,6 +633,10 @@
             color: var(--cyan);
         }
 
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
             margin-top: 50px;
             padding: 30px 20px;
@@ -552,7 +651,12 @@
             color: var(--cyan);
         }
 
+        /* =========================
+           MOBILE
+        ========================= */
+
         @media (max-width: 750px) {
+
             nav {
                 flex-direction: column;
                 justify-content: center;
@@ -604,14 +708,32 @@
             .hero::after {
                 height: 55%;
             }
+
+            .about-window {
+                padding: 20px;
+            }
+
+            .about-window .window-bar {
+                margin: -20px -20px 20px;
+            }
+
+            .chat-label {
+                font-size: 0.65rem;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- =========================
+         HEADER
+    ========================= -->
+
     <header>
+
         <nav>
+
             <a href="#home" class="logo">
                 leqixn
             </a>
@@ -621,12 +743,20 @@
                 <li><a href="#work">WORK</a></li>
                 <li><a href="#journey">JOURNEY</a></li>
             </ul>
+
         </nav>
+
     </header>
+
 
     <main>
 
+        <!-- =========================
+             HOME
+        ========================= -->
+
         <section id="home" class="hero">
+
             <div class="hero-content">
 
                 <div class="terminal-label">
@@ -634,7 +764,9 @@
                 </div>
 
                 <h1>
-                    Hi, I'm <span>leqixn</span><span class="cursor">_</span>
+                    Hi, I'm
+                    <span>leqixn</span>
+                    <span class="cursor">_</span>
                 </h1>
 
                 <p class="hero-subtitle">
@@ -643,6 +775,7 @@
                 </p>
 
                 <div class="hero-buttons">
+
                     <a href="#work" class="minecraft-button">
                         VIEW MY WORK
                     </a>
@@ -650,10 +783,17 @@
                     <a href="#journey" class="minecraft-button secondary">
                         MY JOURNEY
                     </a>
+
                 </div>
 
             </div>
+
         </section>
+
+
+        <!-- =========================
+             ABOUT
+        ========================= -->
 
         <section id="about">
 
@@ -661,18 +801,57 @@
                 ABOUT ME AND SKILLS
             </h2>
 
+
             <div class="about-grid">
 
-                <div class="panel">
+
+                <!-- =========================
+                     ABOUT ME SQUARE
+                ========================= -->
+
+                <div class="about-window">
+
+                    <div class="window-bar">
+
+                        <span class="window-dot red"></span>
+                        <span class="window-dot yellow"></span>
+                        <span class="window-dot green"></span>
+
+                    </div>
+
+
+                    <div class="chat-label">
+                        Hello! i'm
+                        <span>leqixn, 15</span>
+                    </div>
+
 
                     <p>
                         Hello! I'm
-                        <strong style="color:#42a5f5;">leqixn, 15</strong>,
-                        I'm a Filipino (<strong style="color:#3b3939;">legends lang nakaka alam HAHAHAHA</strong>), My religion is <strong style="color:#00ff00;">Iglesia</strong> <strong style="color:#ffffff;">Ni</strong> <strong style="color:#ff0000;">Cristo</strong>, a developer and founder focused on Minecraft server
+                        <strong style="color:#42a5f5;">
+                            leqixn, 15
+                        </strong>,
+                        I'm a Filipino
+                        (<strong style="color:#3b3939;">
+                            legends lang nakaka alam HAHAHAHA
+                        </strong>),
+                        My religion is
+                        <strong style="color:#00ff00;">
+                            Iglesia
+                        </strong>
+                        <strong style="color:#ffffff;">
+                            Ni
+                        </strong>
+                        <strong style="color:#ff0000;">
+                            Cristo
+                        </strong>,
+                        a developer and founder focused on Minecraft server
                         development, management and community building.
                     </p>
 
+
                     <br>
+
 
                     <p>
                         Throughout my journey, I've worked with multiple
@@ -681,31 +860,78 @@
                         founding and helping shape entire communities.
                     </p>
 
+
                     <br>
 
+
                     <p>
-                        I am also a Software Developer that creates an functional and helpful software
+                        I am also a Software Developer that creates an functional
+                        and helpful software
                         That can be used by Blind People to Rephrase an Visual Text into Sounds.
                     </p>
 
                 </div>
 
-                <div class="panel">
+
+                <!-- =========================
+                     CORE EXPERTISE SQUARE
+                ========================= -->
+
+                <div class="about-window">
+
+                    <div class="window-bar">
+
+                        <span class="window-dot red"></span>
+                        <span class="window-dot yellow"></span>
+                        <span class="window-dot green"></span>
+
+                    </div>
+
+
+                    <div class="chat-label">
+                        Hello! i'm
+                        <span>leqixn, 15</span>
+                    </div>
+
 
                     <p style="color:#42a5f5;">
                         CORE EXPERTISE
                     </p>
 
+
                     <div class="skills">
 
-                        <span class="skill">Minecraft Development</span>
-                        <span class="skill">Server Management</span>
-                        <span class="skill">SMP Development</span>
-                        <span class="skill">Plugin Development</span>
-                        <span class="skill">Community Management</span>
-                        <span class="skill">Server Administration</span>
-                        <span class="skill">Leadership</span>
-                        <span class="skill">Founder</span>
+                        <span class="skill">
+                            Minecraft Development
+                        </span>
+
+                        <span class="skill">
+                            Server Management
+                        </span>
+
+                        <span class="skill">
+                            SMP Development
+                        </span>
+
+                        <span class="skill">
+                            Plugin Development
+                        </span>
+
+                        <span class="skill">
+                            Community Management
+                        </span>
+
+                        <span class="skill">
+                            Server Administration
+                        </span>
+
+                        <span class="skill">
+                            Leadership
+                        </span>
+
+                        <span class="skill">
+                            Founder
+                        </span>
 
                     </div>
 
@@ -713,26 +939,59 @@
 
             </div>
 
+
+            <!-- =========================
+                 STATS
+            ========================= -->
+
             <div class="stats">
 
                 <div class="stat">
-                    <span class="stat-number">24</span>
-                    <span class="stat-label">SMP PROJECTS</span>
+
+                    <span class="stat-number">
+                        24
+                    </span>
+
+                    <span class="stat-label">
+                        SMP PROJECTS
+                    </span>
+
                 </div>
 
-                <div class="stat">
-                    <span class="stat-number">37</span>
-                    <span class="stat-label">MONTHS JOURNEY</span>
-                </div>
 
                 <div class="stat">
-                    <span class="stat-number">5</span>
-                    <span class="stat-label">LEADERSHIP ROLES</span>
+
+                    <span class="stat-number">
+                        37
+                    </span>
+
+                    <span class="stat-label">
+                        MONTHS JOURNEY
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span class="stat-number">
+                        5
+                    </span>
+
+                    <span class="stat-label">
+                        LEADERSHIP ROLES
+                    </span>
+
                 </div>
 
             </div>
 
         </section>
+
+
+        <!-- =========================
+             WORK
+        ========================= -->
 
         <section id="work">
 
@@ -740,19 +999,28 @@
                 WORK HISTORY
             </h2>
 
+
             <div class="timeline">
+
+
+                <!-- SAILYXSMP -->
 
                 <article class="job">
 
                     <div class="job-top">
 
                         <div>
-                            <h3>SailyxSMP</h3>
+
+                            <h3>
+                                SailyxSMP
+                            </h3>
 
                             <span class="role">
                                 FOUNDER
                             </span>
+
                         </div>
+
 
                         <span class="duration">
                             1 YEAR AND 1 MONTH
@@ -760,30 +1028,45 @@
 
                     </div>
 
+
                     <p>
                         Founded and helped shape the direction of SailyxSMP,
                         working on the server's development, organization and
                         overall community experience.
-                        Founded Date: <strong style="color:#00ff00;">May 05, 2025</strong>
+                        Founded Date:
+                        <strong style="color:#00ff00;">
+                            May 05, 2025
+                        </strong>
                     </p>
 
+
                     <div class="journey-bar">
+
                         <div class="journey-fill sailyx"></div>
+
                     </div>
 
                 </article>
+
+
+                <!-- ACERSMP -->
 
                 <article class="job">
 
                     <div class="job-top">
 
                         <div>
-                            <h3>AcerSMP</h3>
+
+                            <h3>
+                                AcerSMP
+                            </h3>
 
                             <span class="role">
                                 MANAGEMENT STAFF & DEVELOPER
                             </span>
+
                         </div>
+
 
                         <span class="duration">
                             9 MONTHS
@@ -791,30 +1074,45 @@
 
                     </div>
 
+
                     <p>
                         Worked as management staff and a developer,
                         contributing to both the technical side of the server
                         and its day-to-day management.
-                        Started Work Date: <strong style="color:#00ff00;">September 15, 2025</strong>
+                        Started Work Date:
+                        <strong style="color:#00ff00;">
+                            September 15, 2025
+                        </strong>
                     </p>
 
+
                     <div class="journey-bar">
+
                         <div class="journey-fill acer"></div>
+
                     </div>
 
                 </article>
+
+
+                <!-- VERYLIUMSMP -->
 
                 <article class="job">
 
                     <div class="job-top">
 
                         <div>
-                            <h3>VeryliumSMP</h3>
+
+                            <h3>
+                                VeryliumSMP
+                            </h3>
 
                             <span class="role">
                                 FOUNDER
                             </span>
+
                         </div>
+
 
                         <span class="duration">
                             11 MONTHS
@@ -822,14 +1120,21 @@
 
                     </div>
 
+
                     <p>
                         Founded VeryliumSMP and worked on its direction,
                         development and community.
-                        Founded Date: <strong style="color:#00ff00;">October 19, 2025</strong>
+                        Founded Date:
+                        <strong style="color:#00ff00;">
+                            October 19, 2025
+                        </strong>
                     </p>
 
+
                     <div class="journey-bar">
+
                         <div class="journey-fill verylium"></div>
+
                     </div>
 
                 </article>
@@ -838,11 +1143,17 @@
 
         </section>
 
+
+        <!-- =========================
+             JOURNEY
+        ========================= -->
+
         <section id="journey">
 
             <h2 class="section-title">
                 MY JOURNEY
             </h2>
+
 
             <div class="journey-summary">
 
@@ -850,30 +1161,48 @@
                     // 37 MONTHS OF EXPERIENCE
                 </h3>
 
+
                 <p>
                     My Minecraft server journey has taken me through 13
                     major projects, giving me experience in development,
                     management, leadership and founding communities.
                 </p>
 
+
                 <p class="journey-total">
+
                     SailyxSMP:
-                    <strong>1 year and 1 month</strong>
+                    <strong>
+                        1 year and 1 month
+                    </strong>
+
                     &nbsp;|&nbsp;
 
                     AcerSMP:
-                    <strong>9 months</strong>
+                    <strong>
+                        9 months
+                    </strong>
+
                     &nbsp;|&nbsp;
 
                     VeryliumSMP:
-                    <strong>11 months</strong> and many more...
+                    <strong>
+                        11 months
+                    </strong>
+
+                    and many more...
+
                 </p>
 
+
                 <p style="margin-top:20px; color:#90caf9;">
+
                     TOTAL JOURNEY:
+
                     <strong style="color:#42a5f5;">
                         37 MONTHS
                     </strong>
+
                 </p>
 
             </div>
@@ -882,13 +1211,24 @@
 
     </main>
 
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
     <footer>
+
         <p>
-            © 2026 <span>leqixn</span> — All rights reserved.
+            © 2026
+            <span>leqixn</span>
+            — All rights reserved.
         </p>
+
     </footer>
 
+
     <script>
+
         const titles = [
             "leqixn's Portfolio pakyu"
         ];
@@ -896,9 +1236,13 @@
         let titleIndex = 0;
 
         setInterval(() => {
+
             titleIndex = (titleIndex + 1) % titles.length;
+
             document.title = titles[titleIndex];
+
         }, 4000);
+
     </script>
 
 </body>
