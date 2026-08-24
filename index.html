@@ -1488,15 +1488,15 @@
 
     <header>
         <nav>
-            <a href="#home" class="logo">leqixn</a>
+            <a href="/" class="logo">leqixn</a>
 
             <ul class="nav-links">
-                <li><a href="#about">ABOUT</a></li>
-                <li><a href="#languages">LANGUAGES</a></li>
-                <li><a href="#plugins">PLUGINS</a></li>
-                <li><a href="#work">WORK</a></li>
-                <li><a href="#journey">JOURNEY</a></li>
-                <li><a href="#assistants">ASSISTANT TOOLS</a></li>
+                <li><a href="/about">ABOUT</a></li>
+                <li><a href="/languages">LANGUAGES</a></li>
+                <li><a href="/plugins">PLUGINS</a></li>
+                <li><a href="/work">WORK</a></li>
+                <li><a href="/journey">JOURNEY</a></li>
+                <li><a href="/assistants">ASSISTANT TOOLS</a></li>
             </ul>
         </nav>
     </header>
@@ -1521,11 +1521,11 @@
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="#plugins" class="minecraft-button">
+                    <a href="/plugins" class="minecraft-button">
                         VIEW MY PLUGINS
                     </a>
 
-                    <a href="#languages" class="minecraft-button secondary">
+                    <a href="/languages" class="minecraft-button secondary">
                         MY TECHNOLOGIES
                     </a>
                 </div>
@@ -2137,7 +2137,7 @@
 
     </main>
 
-    <a href="#home" class="back-top">↑</a>
+    <a href="/" class="back-top">↑</a>
 
     <footer>
         <p>
@@ -2220,6 +2220,49 @@
         drawCodeBackground();
 
     </script>
+
+
+<script>
+    const cleanRoutes = {
+        "/": "home",
+        "/about": "about",
+        "/languages": "languages",
+        "/plugins": "plugins",
+        "/work": "work",
+        "/journey": "journey",
+        "/assistants": "assistants"
+    };
+
+    function showRoute(path, updateUrl = false) {
+        const route = cleanRoutes[path] || "home";
+        const target = document.getElementById(route);
+        if (!target) return;
+
+        if (updateUrl) {
+            history.pushState({}, "", path);
+        }
+
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.querySelectorAll('a[href^="/"]').forEach(link => {
+        const path = link.getAttribute("href");
+        if (!cleanRoutes[path]) return;
+
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            showRoute(path, true);
+        });
+    });
+
+    window.addEventListener("popstate", () => {
+        showRoute(window.location.pathname);
+    });
+
+    if (window.location.pathname !== "/") {
+        window.addEventListener("load", () => showRoute(window.location.pathname));
+    }
+</script>
 
 </body>
 </html>
