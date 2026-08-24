@@ -1056,6 +1056,92 @@
             color: var(--green);
         }
 
+        .assistant-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .assistant-card {
+            position: relative;
+            min-height: 230px;
+            padding: 25px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            box-shadow: 5px 5px 0 #020812;
+            overflow: hidden;
+            transition: 0.25s ease;
+        }
+
+        .assistant-card::before {
+            content: "AI";
+            position: absolute;
+            right: 15px;
+            top: 8px;
+            color: rgba(66, 165, 245, 0.08);
+            font-size: 2.8rem;
+        }
+
+        .assistant-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+            box-shadow: 5px 5px 0 #020812, 0 0 25px rgba(66, 165, 245, 0.1);
+        }
+
+        .assistant-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            color: var(--cyan);
+            background: #071e38;
+            border: 2px solid var(--border);
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 3px 3px 0 #020812;
+        }
+
+        .assistant-card h3 {
+            color: var(--cyan);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .assistant-card h3::before {
+            content: ">";
+            color: var(--sky);
+            margin-right: 7px;
+        }
+
+        .assistant-card p {
+            color: var(--gray);
+            font-size: 0.68rem;
+            line-height: 1.8;
+        }
+
+        .assistant-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 18px;
+            padding: 5px 8px;
+            color: #bfe5ff;
+            background: #071e38;
+            border: 1px solid #164e83;
+            font-size: 0.5rem;
+        }
+
+        .assistant-status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            border-radius: 50%;
+        }
+
         footer {
             margin-top: 50px;
             padding: 30px 20px;
@@ -1095,6 +1181,10 @@
 
         @media (max-width: 950px) {
             .plugin-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .assistant-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
@@ -1141,7 +1231,8 @@
             }
 
             .language-grid,
-            .plugin-grid {
+            .plugin-grid,
+            .assistant-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1185,10 +1276,155 @@
                 margin: -20px -20px 20px;
             }
         }
+
+
+        #code-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            pointer-events: none;
+            opacity: .72;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+            background:
+                linear-gradient(rgba(66,165,245,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(66,165,245,.025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+        }
+
+        .code-scanline {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: -10%;
+            height: 180px;
+            z-index: -1;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent, rgba(66,165,245,.06), transparent);
+            filter: blur(8px);
+            animation: codeScan 9s linear infinite;
+        }
+
+        @keyframes codeScan { to { transform: translateY(125vh); } }
+
+        .plugin-card,
+        .assistant-card {
+            position: relative;
+            isolation: isolate;
+            border-radius: 0;
+            border: 2px solid #102c49;
+            background:
+                linear-gradient(135deg, rgba(25, 66, 101, .96) 0 8px, transparent 8px),
+                linear-gradient(315deg, rgba(3, 11, 20, .96) 0 8px, transparent 8px),
+                linear-gradient(145deg, #12385d, #071725 62%, #04101c);
+            box-shadow:
+                inset 2px 2px 0 rgba(144, 202, 249, .18),
+                inset -2px -2px 0 rgba(0, 0, 0, .65),
+                5px 5px 0 #020812;
+            transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+        }
+
+        .plugin-card::before,
+        .assistant-card::before {
+            content: "";
+            position: absolute;
+            inset: 5px;
+            pointer-events: none;
+            border: 1px solid rgba(144, 202, 249, .08);
+            background:
+                linear-gradient(90deg, rgba(255,255,255,.025) 50%, transparent 50%) 0 0 / 4px 4px,
+                linear-gradient(rgba(255,255,255,.018) 50%, transparent 50%) 0 0 / 4px 4px;
+            opacity: .65;
+            z-index: -1;
+        }
+
+        .plugin-card::after,
+        .assistant-card::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            content: "";
+            background: #071725;
+            border-left: 2px solid #102c49;
+            border-bottom: 2px solid #102c49;
+        }
+
+        .plugin-card:hover,
+        .assistant-card:hover {
+            transform: translate(-2px, -4px);
+            border-color: #42a5f5;
+            box-shadow:
+                inset 2px 2px 0 rgba(144, 202, 249, .25),
+                inset -2px -2px 0 rgba(0, 0, 0, .7),
+                6px 6px 0 #020812,
+                0 0 18px rgba(66, 165, 245, .14);
+        }
+
+        .plugin-card h3,
+        .assistant-card h3 {
+            color: #e8f4ff;
+            text-shadow: 2px 2px 0 #020812;
+        }
+
+        .plugin-card h3::before,
+        .assistant-card h3::before {
+            content: ">";
+            color: #55c8ff;
+            text-shadow: 2px 2px 0 #020812;
+        }
+
+        .plugin-tag,
+        .assistant-status {
+            border-radius: 0;
+            background: #071725;
+            border: 2px solid #164e83;
+            box-shadow: inset 2px 2px 0 rgba(144, 202, 249, .08), inset -2px -2px 0 rgba(0,0,0,.5);
+        }
+
+        .plugin-card:hover .plugin-tag,
+        .assistant-card:hover .assistant-status {
+            border-color: #42a5f5;
+        }
+
+        .assistant-card {
+            min-height: 245px;
+            padding: 27px;
+        }
+
+        .assistant-icon {
+            border-radius: 0;
+            border: 2px solid #164e83;
+            background: linear-gradient(145deg, #1b4f7d, #071725);
+            box-shadow: 4px 4px 0 #020812, inset 2px 2px 0 rgba(144,202,249,.12), inset -2px -2px 0 rgba(0,0,0,.55);
+        }
+
+        .assistant-icon::after {
+            content: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .code-scanline, .assistant-icon::after { animation: none; }
+            .plugin-card, .assistant-card { transition: none; }
+        }
+
     </style>
 </head>
 
 <body class="intro-active">
+
+    <canvas id="code-canvas" aria-hidden="true"></canvas>
+    <div class="code-scanline" aria-hidden="true"></div>
 
     <div class="intro" id="intro">
         <div class="intro-container">
@@ -1260,6 +1496,7 @@
                 <li><a href="#plugins">PLUGINS</a></li>
                 <li><a href="#work">WORK</a></li>
                 <li><a href="#journey">JOURNEY</a></li>
+                <li><a href="#assistants">ASSISTANT TOOLS</a></li>
             </ul>
         </nav>
     </header>
@@ -1696,6 +1933,63 @@
 
         </section>
 
+        <section id="assistants">
+
+            <h2 class="section-title">
+                ASSISTANT TOOLS
+            </h2>
+
+            <div class="plugin-intro">
+                AI assistants I use while coding, debugging, brainstorming ideas,
+                reviewing implementations and improving my development workflow.
+            </div>
+
+            <div class="assistant-grid">
+
+                <article class="assistant-card">
+                    <div class="assistant-icon">CL</div>
+                    <h3>Claude</h3>
+                    <p>
+                        Used as a coding assistant for implementation, debugging,
+                        refactoring, code review and working through complex ideas.
+                    </p>
+                    <span class="assistant-status">IN MY TOOLKIT</span>
+                </article>
+
+                <article class="assistant-card">
+                    <div class="assistant-icon">GE</div>
+                    <h3>Gemini</h3>
+                    <p>
+                        Used for development assistance, exploring solutions,
+                        researching approaches and helping with coding tasks.
+                    </p>
+                    <span class="assistant-status">IN MY TOOLKIT</span>
+                </article>
+
+                <article class="assistant-card">
+                    <div class="assistant-icon">GX</div>
+                    <h3>Grok</h3>
+                    <p>
+                        Used as an additional AI coding assistant for ideas,
+                        problem-solving, debugging and comparing possible approaches.
+                    </p>
+                    <span class="assistant-status">IN MY TOOLKIT</span>
+                </article>
+
+                <article class="assistant-card">
+                    <div class="assistant-icon">AI</div>
+                    <h3>OpenAI</h3>
+                    <p>
+                        Used for coding help, architecture ideas, troubleshooting,
+                        explanations, optimization and development workflows.
+                    </p>
+                    <span class="assistant-status">IN MY TOOLKIT</span>
+                </article>
+
+            </div>
+
+        </section>
+
         <section id="work">
 
             <h2 class="section-title">
@@ -1876,6 +2170,55 @@
             titleIndex = (titleIndex + 1) % titles.length;
             document.title = titles[titleIndex];
         }, 3000);
+
+
+        const codeCanvas = document.getElementById("code-canvas");
+        const ctx = codeCanvas.getContext("2d");
+        const codeChars = ["0","1","{","}","<","/","/>","=>","()","[]",";","#","$","&&","||","==","===","const","let","class","void","async","await","npm","git","java","python","js","css"];
+        let streams = [];
+        let mouse = { x: -9999, y: -9999 };
+
+        function resizeCodeCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            codeCanvas.width = innerWidth * dpr;
+            codeCanvas.height = innerHeight * dpr;
+            codeCanvas.style.width = innerWidth + "px";
+            codeCanvas.style.height = innerHeight + "px";
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            const count = Math.max(18, Math.floor(innerWidth / 42));
+            streams = Array.from({ length: count }, (_, i) => ({
+                x: (i + Math.random()) * (innerWidth / count),
+                y: Math.random() * innerHeight,
+                speed: .25 + Math.random() * .65,
+                size: 8 + Math.random() * 4,
+                alpha: .05 + Math.random() * .11,
+                text: Array.from({length: 7 + Math.floor(Math.random()*10)}, () => codeChars[Math.floor(Math.random()*codeChars.length)])
+            }));
+        }
+
+        function drawCodeBackground() {
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            ctx.font = "10px Monocraft, monospace";
+            streams.forEach(stream => {
+                stream.y += stream.speed;
+                if (stream.y > innerHeight + 120) stream.y = -80 - Math.random()*200;
+                stream.text.forEach((char, index) => {
+                    const y = stream.y + index * 24;
+                    if (y < -20 || y > innerHeight + 20) return;
+                    const dist = Math.hypot(stream.x - mouse.x, y - mouse.y);
+                    const glow = dist < 150 ? (1 - dist/150) * .18 : 0;
+                    ctx.fillStyle = `rgba(66,165,245,${Math.min(.32, stream.alpha + glow)})`;
+                    ctx.fillText(char, stream.x, y);
+                });
+            });
+            requestAnimationFrame(drawCodeBackground);
+        }
+
+        window.addEventListener("resize", resizeCodeCanvas);
+        window.addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        resizeCodeCanvas();
+        drawCodeBackground();
+
     </script>
 
 </body>
